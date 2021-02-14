@@ -56,7 +56,7 @@ const createAd = () => {
       checkout: getRandomValue(OFFER_CHECKTIME),
       features: getRandomArray(OFFER_FEATURES),
       description: getRandomValue(OFFER_DESCRIPTION),
-      photos: getRandomValue(OFFER_PHOTOS),
+      photos: getRandomArray(OFFER_PHOTOS),
     },
     location: {
       x: getRandomInt(35.65, 35.7, 5),
@@ -67,5 +67,4 @@ const createAd = () => {
 
 const generateAds = new Array(ADS_COUNT).fill(null).map(() => createAd());
 
-generateAds;
-
+export {generateAds};
