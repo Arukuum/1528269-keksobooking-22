@@ -1,6 +1,5 @@
 import {generateAds} from './ad.js';
 
-const mapCanvas = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const houseType = {
   palace: 'Дворец',
@@ -46,4 +45,6 @@ const similarCard = (generateAds) => {
   return cardElement;
 };
 
-mapCanvas.appendChild(similarCard(generateAds[0]));
+// mapCanvas.appendChild(similarCard(generateAds[0]));
+generateAds;
+export {similarCard};
