@@ -1,5 +1,3 @@
-import {generateAds} from './ad.js';
-
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const houseType = {
   palace: 'Дворец',
@@ -38,13 +36,11 @@ const similarCard = (generateAds) => {
   cardElement.querySelector('.popup__text--capacity').textContent = generateAds.offer.rooms + ' комнаты для ' + generateAds.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + generateAds.offer.checkin + ', выезд до ' + generateAds.offer.checkout;
   cardElement.querySelector('.popup__description').textContent = generateAds.offer.description;
-  cardElement.querySelector('.popup__avatar').src = generateAds.autor.avatar;
+  cardElement.querySelector('.popup__avatar').src = generateAds.author.avatar;
   generateFeatures();
   generatePhotos();
 
   return cardElement;
 };
 
-// mapCanvas.appendChild(similarCard(generateAds[0]));
-generateAds;
 export {similarCard};
