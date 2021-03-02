@@ -1,13 +1,31 @@
-import {activateForm} from './form.js';
-import {generateAds} from './ad.js';
 import {similarCard} from './card.js';
 
+const formAd = document.querySelector('.ad-form');
+const fieldsetsFormAd = formAd.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const filters = mapFilters.querySelectorAll('select, fieldset');
 const addressForm = document.querySelector('#address');
 const CENTER_LAT = 35.6895;
 const CENTER_LNG = 139.6917;
-const ZOOM = 12;
+const ZOOM = 10;
+
+const deactivateForm = () => {
+  formAd.classList.add('ad-form--disabled');
+
+  fieldsetsFormAd.forEach((element) => {
+    element.disabled = true;
+  });
+};
+
+deactivateForm();
+
+const activateForm = () => {
+  formAd.classList.remove('ad-form--disabled');
+    
+  fieldsetsFormAd.forEach((element) => {
+    element.disabled = false;
+  }); 
+};
 
 const deactivateFilters = () => {
   mapFilters.classList.add('map__filters--disabled');
@@ -82,19 +100,23 @@ const pinIcon = L.icon(
   },
 );
 
-generateAds.forEach((generateAds) => { 
-  const marker = L.marker(
-    {
-      lat: generateAds.location.x,
-      lng: generateAds.location.y,
-    },
-    {
-      icon: pinIcon,
-    },
-  );
-  marker
-    .addTo(map)
-    .bindPopup( 
-      similarCard(generateAds),
+const createMarkersAds = (data) => {
+  data.forEach((element) => { 
+    const marker = L.marker(
+      {
+        lat: element.location.lat,
+        lng: element.location.lng,
+      },
+      {
+        icon: pinIcon,
+      },
     );
-});
+    marker
+      .addTo(map)
+      .bindPopup( 
+        similarCard(element),
+      );
+  });
+};
+
+export{createMarkersAds, mainMarker, CENTER_LAT, CENTER_LNG};

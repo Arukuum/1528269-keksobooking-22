@@ -1,8 +1,15 @@
+import {isEscEvent, isClickEvent} from './util.js';
+import {sendData} from './api.js';
+import {mainMarker,CENTER_LAT, CENTER_LNG} from './map.js';
+
 const MIN_LENGHT_TITLE = 30;
 const MAX_LENGHT_TITLE = 100;
 const MAX_PRICE = 1000000;
+const main = document.querySelector('main');
+const successMessage = document.querySelector('#success').content.querySelector('.success');
+const errorMessage = document.querySelector('#error').content.querySelector('.error');
+const mapFilters = document.querySelector('.map__filters');
 const formAd = document.querySelector('.ad-form');
-const fieldsetsFormAd = formAd.querySelectorAll('fieldset');
 const titleAd = formAd.querySelector('#title');
 const typeHouseSelect = formAd.querySelector('#type');
 const priceInput = formAd.querySelector('#price');
@@ -10,29 +17,13 @@ const roomNumber = formAd.querySelector('#room_number');
 const capacity = formAd.querySelector('#capacity');
 const timeIn = formAd.querySelector('#timein');
 const timeOut = formAd.querySelector('#timeout');
+const resetButton = formAd.querySelector('.ad-form__reset');
+const addressForm = formAd.querySelector('#address'); 
 const minPrice = {
   'bungalow': 0,
   'flat': 1000,
   'house': 5000,
   'palace': 10000,
-};
-
-const deactivateForm = () => {
-  formAd.classList.add('ad-form--disabled');
-
-  fieldsetsFormAd.forEach((element) => {
-    element.disabled = true;
-  });
-};
-
-deactivateForm();
-
-const activateForm = () => {
-  formAd.classList.remove('ad-form--disabled');
-    
-  fieldsetsFormAd.forEach((element) => {
-    element.disabled = false;
-  }); 
 };
 
 titleAd.addEventListener('invalid', () => {
@@ -99,4 +90,51 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-export {activateForm};
+const resetFormAd = () => {
+  formAd.reset();
+  mapFilters.reset();
+  mainMarker.setLatLng({lat: CENTER_LAT, lng: CENTER_LNG});
+  addressForm.value = `${CENTER_LAT}, ${CENTER_LNG}`;
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetFormAd();
+});
+
+const closeMessage = (evt) => {
+  if (isEscEvent(evt) || isClickEvent(evt)) {
+    evt.preventDefault();
+    successMessage.remove();
+    errorMessage.remove();
+    document.removeEventListener('keydown', closeMessage);
+    document.removeEventListener('mousedown', closeMessage);
+  }
+};
+
+const showSuccessMessage = () => {
+  main.append(successMessage);
+  resetFormAd();
+  document.addEventListener('keydown', closeMessage);
+  document.addEventListener('click', closeMessage);
+};
+
+const showErrorMessage = () => {
+  main.append(errorMessage);
+  document.addEventListener('keydown', closeMessage);
+  document.addEventListener('click', closeMessage);
+}
+
+const setFormSubmit = () => {
+  formAd.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => showSuccessMessage(),
+      () => showErrorMessage(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {setFormSubmit};
