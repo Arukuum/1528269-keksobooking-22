@@ -1,13 +1,15 @@
 import {similarCard} from './card.js';
+import {getFilter} from './filter.js';
 
+const CENTER_LAT = 35.6895;
+const CENTER_LNG = 139.6917;
+const ZOOM = 10;
+const NUMBER_MARKERS = 10;
 const formAd = document.querySelector('.ad-form');
 const fieldsetsFormAd = formAd.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const filters = mapFilters.querySelectorAll('select, fieldset');
 const addressForm = document.querySelector('#address');
-const CENTER_LAT = 35.6895;
-const CENTER_LNG = 139.6917;
-const ZOOM = 10;
 
 const deactivateForm = () => {
   formAd.classList.add('ad-form--disabled');
@@ -47,10 +49,7 @@ const activateFilters = () => {
 
 /* global L:readonly */
 const map = L.map('map-canvas')
-  .on('load', () => {
-    activateFilters();
-    activateForm();
-  })
+  .on('load', deactivateForm, deactivateFilters)
   .setView({
     lat: CENTER_LAT,
     lng: CENTER_LNG,
@@ -99,24 +98,34 @@ const pinIcon = L.icon(
     iconAnchor: [20, 40],
   },
 );
+const markersLayer = new L.LayerGroup();
 
 const createMarkersAds = (data) => {
-  data.forEach((element) => { 
-    const marker = L.marker(
-      {
-        lat: element.location.lat,
-        lng: element.location.lng,
-      },
-      {
-        icon: pinIcon,
-      },
-    );
-    marker
-      .addTo(map)
-      .bindPopup( 
-        similarCard(element),
+  markersLayer.clearLayers();
+  data
+    .slice()
+    .filter(getFilter)
+    .slice(0, NUMBER_MARKERS)
+    .forEach((element) => {
+      const marker = L.marker(
+        {
+          lat: element.location.lat,
+          lng: element.location.lng,
+        },
+        {
+          icon: pinIcon,
+        },
       );
-  });
+      marker
+        .addTo(map)
+        .bindPopup(
+          similarCard(element),
+        );
+      markersLayer.addLayer(marker);
+    });
+  markersLayer.addTo(map);
+  activateFilters();
+  activateForm();
 };
 
 export{createMarkersAds, mainMarker, CENTER_LAT, CENTER_LNG};

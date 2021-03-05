@@ -104,7 +104,6 @@ resetButton.addEventListener('click', (evt) => {
 
 const closeMessage = (evt) => {
   if (isEscEvent(evt) || isClickEvent(evt)) {
-    evt.preventDefault();
     successMessage.remove();
     errorMessage.remove();
     document.removeEventListener('keydown', closeMessage);
