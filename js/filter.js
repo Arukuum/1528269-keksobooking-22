@@ -46,9 +46,9 @@ const getFilter = (data) => {
   return false;
 };
 
-const changeFilter = (cb) => {
+const changeFilter = (filterAds) => {
   mapFilters.addEventListener('change', () => {
-    cb();
+    filterAds();
   });
 };
   
