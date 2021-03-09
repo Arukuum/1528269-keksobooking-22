@@ -65,4 +65,13 @@ const isClickEvent = (evt) => {
   return evt.type === 'click';
 };
 
-export {getRandomNumber, getRandomInt, getRandomValue, getRandomArray, isEscEvent, isClickEvent, showAlert};
+const debounce = (filterAds, timeout) => {
+  let timeFilter;
+  return () => {
+    clearTimeout(timeFilter);
+    timeFilter = setTimeout(() => filterAds.apply(this), timeout);
+  };
+};
+
+
+export {getRandomNumber, getRandomInt, getRandomValue, getRandomArray, isEscEvent, isClickEvent, showAlert, debounce};
