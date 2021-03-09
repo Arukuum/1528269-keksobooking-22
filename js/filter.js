@@ -1,15 +1,14 @@
+const DEFAULT_TYPE = 'any';
+const Price = {
+  LOW: 10000,
+  HIGH: 50000,
+};
 const mapFilters = document.querySelector('.map__filters');
 const housingType = mapFilters.querySelector('#housing-type');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingFeatures = mapFilters.querySelector('#housing-features');
-
-const Price = {
-  LOW: 10000,
-  HIGH: 50000,
-};
-const DEFAULT_TYPE = 'any';
 
 
 const filtrationPrice = (data) => {

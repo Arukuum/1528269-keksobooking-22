@@ -1,3 +1,4 @@
+import './photo.js'
 import './map.js'
 import './form.js'
 import {getData} from './api.js';
