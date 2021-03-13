@@ -1,6 +1,7 @@
 import {isEscEvent, isClickEvent} from './util.js';
 import {sendData} from './api.js';
-import {mainMarker,CENTER_LAT, CENTER_LNG} from './map.js';
+import {mainMarker, CENTER_LAT, CENTER_LNG} from './map.js';
+import {clearAvatar, clearPhoto} from './photo.js'
 
 const MIN_LENGHT_TITLE = 30;
 const MAX_LENGHT_TITLE = 100;
@@ -95,6 +96,8 @@ const resetFormAd = () => {
   mapFilters.reset();
   mainMarker.setLatLng({lat: CENTER_LAT, lng: CENTER_LNG});
   addressForm.value = `${CENTER_LAT}, ${CENTER_LNG}`;
+  clearAvatar();
+  clearPhoto(); 
 };
 
 resetButton.addEventListener('click', (evt) => {
