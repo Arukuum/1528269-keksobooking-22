@@ -29,20 +29,20 @@ const clearAvatar = () => {
   avatarPreview.src = 'img/muffin-grey.svg';
 };
 
+const clearPhoto = () => {
+  if (photoPreview.firstChild) {
+    photoPreview.removeChild(photoPreview.firstChild);
+  }
+};  
+
 photoChooser.addEventListener('change', () => { 
   const photoContainer = document.createElement('img');
   photoContainer.style.width = '100%';
   photoContainer.style.height = '100%';
   
   onFileUpload(photoChooser, photoContainer);
-  if (photoPreview.firstChild) {
-    photoPreview.removeChild(photoPreview.firstChild);
-  }
+  clearPhoto();
   photoPreview.append(photoContainer);
 });
-
-const clearPhoto = () => {
-  photoPreview.removeChild(photoPreview.firstChild);
-};
   
 export {clearAvatar, clearPhoto}; 
