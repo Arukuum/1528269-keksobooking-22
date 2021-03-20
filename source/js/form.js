@@ -108,26 +108,33 @@ resetButton.addEventListener('click', (evt) => {
   resetFormAd();
 });
 
-const closeMessage = (evt) => {
-  if (isEscEvent(evt) || isClickEvent(evt)) {
+const closeMessageEsc = (evt) => {
+  if (isEscEvent(evt)) {
     successMessage.remove();
     errorMessage.remove();
-    document.removeEventListener('keydown', closeMessage);
-    document.removeEventListener('mousedown', closeMessage);
+    document.removeEventListener('keydown', closeMessageEsc);
+  }
+};
+
+const closeMessageClick = (evt) => {
+  if (isClickEvent(evt)) {
+    successMessage.remove();
+    errorMessage.remove();
+    document.removeEventListener('click', closeMessageClick);
   }
 };
 
 const showSuccessMessage = () => {
   main.append(successMessage);
   resetFormAd();
-  document.addEventListener('keydown', closeMessage);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', closeMessageEsc);
+  document.addEventListener('click', closeMessageClick);
 };
 
 const showErrorMessage = () => {
   main.append(errorMessage);
-  document.addEventListener('keydown', closeMessage);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', closeMessageEsc);
+  document.addEventListener('click', closeMessageClick);
 }
 
 const setFormSubmit = () => {

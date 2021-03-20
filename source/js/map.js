@@ -1,4 +1,4 @@
-import {similarCard} from './card.js';
+import {createSimilarCard} from './card.js';
 import {getFilter} from './filter.js';
 
 const CENTER_LAT = 35.6895;
@@ -11,45 +11,34 @@ const mapFilters = document.querySelector('.map__filters');
 const filters = mapFilters.querySelectorAll('select, fieldset');
 const addressForm = document.querySelector('#address');
 
-const deactivateForm = () => {
+const deactivatePage = () => {
   formAd.classList.add('ad-form--disabled');
-
   fieldsetsFormAd.forEach((element) => {
     element.disabled = true;
   });
-};
-
-deactivateForm();
-
-const activateForm = () => {
-  formAd.classList.remove('ad-form--disabled');
-    
-  fieldsetsFormAd.forEach((element) => {
-    element.disabled = false;
-  }); 
-};
-
-const deactivateFilters = () => {
   mapFilters.classList.add('map__filters--disabled');
-  
   filters.forEach((element) => {
     element.disabled = true;
   }); 
 };
 
-deactivateFilters();
+deactivatePage();
 
-const activateFilters = () => {
-  mapFilters.classList.remove('map__filters--disabled');
-    
+const activatePage = () => {
+  formAd.classList.remove('ad-form--disabled'); 
+  fieldsetsFormAd.forEach((element) => {
+    element.disabled = false;
+  });
+  mapFilters.classList.remove('map__filters--disabled'); 
   filters.forEach((element) => {
     element.disabled = false;
-  }); 
+  });  
 };
 
 /* global L:readonly */
+
 const map = L.map('map-canvas')
-  .on('load', deactivateForm, deactivateFilters)
+  .on('load', deactivatePage)
   .setView({
     lat: CENTER_LAT,
     lng: CENTER_LNG,
@@ -119,13 +108,12 @@ const createMarkersAds = (data) => {
       marker
         .addTo(map)
         .bindPopup(
-          similarCard(element),
+          createSimilarCard(element),
         );
       markersLayer.addLayer(marker);
     });
   markersLayer.addTo(map);
-  activateFilters();
-  activateForm();
+  activatePage();
 };
 
 export{createMarkersAds, mainMarker, CENTER_LAT, CENTER_LNG};

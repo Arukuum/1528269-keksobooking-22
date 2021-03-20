@@ -1,4 +1,5 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
 const houseType = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -6,7 +7,7 @@ const houseType = {
   bungalo: 'Бунгало',
 };
 
-const similarCard = (generateAds) => {
+const createSimilarCard = (generateAds) => {
   const cardElement = cardTemplate.cloneNode(true);
   const cardFeatures = cardElement.querySelector('.popup__features');
   const cardPhotos = cardElement.querySelector('.popup__photos');
@@ -27,8 +28,8 @@ const similarCard = (generateAds) => {
       photo.src = generateAds.offer.photos[i];
       cardPhotos.appendChild(photo.cloneNode(true));
     });
-  };
-
+  };  
+ 
   cardElement.querySelector('.popup__title').textContent = generateAds.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = generateAds.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = generateAds.offer.price + ' ₽/ночь';
@@ -43,4 +44,4 @@ const similarCard = (generateAds) => {
   return cardElement;
 };
 
-export {similarCard};
+export {createSimilarCard};
